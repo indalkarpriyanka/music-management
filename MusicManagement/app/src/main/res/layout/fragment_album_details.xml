@@ -25,23 +25,44 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/txt_album_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/album_name"
+        app:layout_constraintLeft_toLeftOf="@+id/img_album"
+        app:layout_constraintTop_toBottomOf="@+id/img_album" />
+
+    <TextView
+        android:id="@+id/txt_album_name_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="test string"
+        app:layout_constraintLeft_toRightOf="@+id/txt_album_name"
+
+        app:layout_constraintTop_toTopOf="@+id/txt_album_name" />
+
     <TextView
         android:id="@+id/txt_artist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:text="@string/artist_name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/txt_artist_name_value"
-        app:layout_constraintTop_toBottomOf="@+id/img_album" />
+
+        app:layout_constraintStart_toStartOf="@+id/txt_album_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_album_name" />
 
     <TextView
         android:id="@+id/txt_artist_name_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test string"
-        app:layout_constraintLeft_toRightOf="@+id/txt_artist_name"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/txt_album_name_value"
+
+
         app:layout_constraintTop_toTopOf="@+id/txt_artist_name" />
 
     <TextView
@@ -50,18 +71,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:text="@string/tracks"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/txt_tracks_value"
+        app:layout_constraintLeft_toLeftOf="@+id/img_album"
         app:layout_constraintTop_toBottomOf="@+id/txt_artist_name" />
 
-    <TextView
-        android:id="@+id/txt_tracks_value"
+    <LinearLayout
+        android:id="@+id/ll_track_names"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        app:layout_constraintLeft_toRightOf="@+id/txt_tracks"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_artist_name" />
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="@+id/txt_artist_name_value"
+        app:layout_constraintTop_toTopOf="@+id/txt_tracks" />
 
     <ProgressBar
         android:id="@+id/pg_bar"

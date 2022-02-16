@@ -9,4 +9,5 @@
     <string name="tracks">Tracks</string>
     <string name="add_to_favourites">Mark as favourite</string>
     <string name="no_title">No Title</string>
+    <string name="album_name">Album name :</string>
 </resources>
