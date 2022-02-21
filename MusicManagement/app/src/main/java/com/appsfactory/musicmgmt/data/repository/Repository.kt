@@ -5,6 +5,7 @@ import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.data.local.dao.AlbumDao
 import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 
@@ -37,7 +38,7 @@ class Repository(private val retrofitService: MusicMgmtService, private val albu
         )
     }
 
-    suspend fun getAlbumDetailsWithArtisNameAndAlbumName(albumName: String,artistName: String) =
+    suspend fun getAlbumDetailsWithArtisNameAndAlbumName(artistName: String?,albumName: String) =
         withContext(Dispatchers.IO) {
             retrofitService.getAlbumDetailsWithAlbumAndArtistName(
                 Constants.METHOD_GET_ALBUMS_INFO,
@@ -47,6 +48,10 @@ class Repository(private val retrofitService: MusicMgmtService, private val albu
                 Constants.FORMAT_VALUE
             )
         }
+
+    fun getMyAlbumList(): Flow<List<AlbumEntity>> {
+       return  albumDao.getAllAlbums()
+    }
 
 
     suspend fun insertAlbum(albumEntity: AlbumEntity) {

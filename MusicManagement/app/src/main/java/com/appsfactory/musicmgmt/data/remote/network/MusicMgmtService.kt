@@ -36,7 +36,7 @@ interface MusicMgmtService {
     suspend fun getAlbumDetailsWithAlbumAndArtistName(
         @Query(Constants.METHOD) method: String,
         @Query(Constants.API_KEY) apiKey: String,
-        @Query(Constants.ARTIST) artistName: String,
+        @Query(Constants.ARTIST) artistName: String?,
         @Query(Constants.ALBUM) albumName: String,
         @Query(Constants.FORMAT) format: String
     ): Response<AlbumDetailResponseModel>

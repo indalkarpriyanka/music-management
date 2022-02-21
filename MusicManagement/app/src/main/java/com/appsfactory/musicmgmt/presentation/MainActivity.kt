@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.appsfactory.musicmgmt.MyApplication
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ActivityCompositeRoot
@@ -32,12 +33,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNavController() {
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-        setupActionBarWithNavController(navController, null)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_mylist, R.id.navigation_searchFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding?.navBottomView?.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)
     }
-
-
 }

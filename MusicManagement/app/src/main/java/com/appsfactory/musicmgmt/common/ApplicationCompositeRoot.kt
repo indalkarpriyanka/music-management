@@ -6,12 +6,11 @@ import com.appsfactory.musicmgmt.data.remote.network.Api
 import com.appsfactory.musicmgmt.data.remote.network.MusicMgmtService
 import com.appsfactory.musicmgmt.data.local.dao.AlbumDatabase
 import com.appsfactory.musicmgmt.data.repository.Repository
-import com.appsfactory.musicmgmt.domain.usecases.GetAlbumDetailsUsecase
-import com.appsfactory.musicmgmt.domain.usecases.GetTopAlbumListUsecase
-import com.appsfactory.musicmgmt.domain.usecases.GetArtistListUsecase
+import com.appsfactory.musicmgmt.domain.usecases.*
 import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModelProviderFactory
 import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModelProviderFactory
 import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModelProviderFactory
+import com.appsfactory.musicmgmt.presentation.viewModels.MyAlbumListViewModelProviderFactory
 
 class ApplicationCompositeRoot(context: Context) {
     private val retrofitService: MusicMgmtService by lazy {
@@ -34,15 +33,24 @@ class ApplicationCompositeRoot(context: Context) {
     private val getAlbumDetailsUsecase by lazy {
         GetAlbumDetailsUsecase(repository)
     }
-
-
-    val albumDetailViewModelProviderFactory by lazy{
-        AlbumDetailsViewModelProviderFactory(getAlbumDetailsUsecase)
+    private val getMyAlbumListUsecase by lazy {
+        GetMyAlbumListUsecase(repository)
     }
-    val searchViewModelProviderFactory by lazy{
+
+    private val saveAlbumDetailsUseCase by lazy {
+        SaveAlbumDetailsUseCase(repository)
+    }
+
+    val albumDetailViewModelProviderFactory by lazy {
+        AlbumDetailsViewModelProviderFactory(getAlbumDetailsUsecase, saveAlbumDetailsUseCase)
+    }
+    val searchViewModelProviderFactory by lazy {
         SearchViewModelProviderFactory(artistListUsecase)
     }
     val topAlbumsViewModelProviderFactory by lazy {
         TopAlbumsViewModelProviderFactory(topAlbumListUsecase)
+    }
+    val myAlbumsListViewModelProviderFactory by lazy {
+        MyAlbumListViewModelProviderFactory(getMyAlbumListUsecase)
     }
 }

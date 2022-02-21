@@ -5,15 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.common.ResultModel.Success
-import com.appsfactory.musicmgmt.data.repository.Repository
 import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.TopAlbumsResponseModel
 import com.appsfactory.musicmgmt.domain.usecases.GetTopAlbumListUsecase
+import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class TopAlbumsViewModel(private val getTopAlbumListUsecase: GetTopAlbumListUsecase) : ViewModel() {
 
-    val searchArtistList = MutableLiveData<ResultModel<TopAlbumsResponseModel>>()
+    val searchArtistList = MutableLiveData<ResultModel<ArrayList<AlbumUiModel>>>()
 
     fun getTopAlbumList(artistName: String) {
 
@@ -32,7 +32,6 @@ class TopAlbumsViewModel(private val getTopAlbumListUsecase: GetTopAlbumListUsec
             }
         }
     }
-
 }
 
 /* suspend fun getTopAlbumList(artistName: String) {

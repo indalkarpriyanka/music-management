@@ -3,6 +3,7 @@ package com.appsfactory.musicmgmt.common
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModel
+import com.appsfactory.musicmgmt.presentation.viewModels.MyAlbumListViewModel
 import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModel
 import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModel
 
@@ -28,5 +29,12 @@ class ActivityCompositeRoot(
             activity,
             applicationCompositeRoot.albumDetailViewModelProviderFactory
         ).get(AlbumDetailsViewModel::class.java)
+    }
+
+    val myAlbumsListViewModel by lazy {
+        ViewModelProvider(
+            activity,
+            applicationCompositeRoot.myAlbumsListViewModelProviderFactory
+        ).get(MyAlbumListViewModel::class.java)
     }
 }

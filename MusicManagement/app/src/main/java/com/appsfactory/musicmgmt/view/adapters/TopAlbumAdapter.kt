@@ -11,10 +11,11 @@ import coil.load
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.Album
 import com.appsfactory.musicmgmt.databinding.ItemAlbumLayoutBinding
+import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 
 class TopAlbumAdapter :
-    ListAdapter<Album, TopAlbumAdapter.TopAlbumViewHolder>(topAlbumListDiffCallback) {
-    var onItemClick: ((Album) -> Unit)? = null
+    ListAdapter<AlbumUiModel, TopAlbumAdapter.TopAlbumViewHolder>(topAlbumListDiffCallback) {
+    var onItemClick: ((AlbumUiModel) -> Unit)? = null
     private lateinit var context: Context
 
     inner class TopAlbumViewHolder(itemBinding: ItemAlbumLayoutBinding) :
@@ -45,20 +46,20 @@ class TopAlbumAdapter :
             album.name
         }
 
-        if (album.image[1].text?.isNotEmpty() == true) {
-            holder.imgAlbum.load(album.image[1].text){
+        if (!album.image.isNullOrEmpty()) {
+            holder.imgAlbum.load(album.image) {
                 crossfade(true)
             }
         }
     }
 }
 
-private val topAlbumListDiffCallback = object : DiffUtil.ItemCallback<Album>() {
-    override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
+private val topAlbumListDiffCallback = object : DiffUtil.ItemCallback<AlbumUiModel>() {
+    override fun areItemsTheSame(oldItem: AlbumUiModel, newItem: AlbumUiModel): Boolean {
         return oldItem.mbid == newItem.mbid
     }
 
-    override fun areContentsTheSame(oldItem: Album, newItem: Album): Boolean {
+    override fun areContentsTheSame(oldItem: AlbumUiModel, newItem: AlbumUiModel): Boolean {
         return oldItem == newItem
     }
 }

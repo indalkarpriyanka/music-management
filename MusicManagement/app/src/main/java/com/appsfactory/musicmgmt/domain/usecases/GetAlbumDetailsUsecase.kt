@@ -1,8 +1,10 @@
 package com.appsfactory.musicmgmt.domain.usecases
 
 import com.appsfactory.musicmgmt.common.ResultModel
+import com.appsfactory.musicmgmt.data.local.dao.AlbumDao
 import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.AlbumDetailResponseModel
 import com.appsfactory.musicmgmt.data.repository.Repository
+import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -11,17 +13,15 @@ import java.io.IOException
 class GetAlbumDetailsUsecase(private val repository: Repository) {
 
     operator fun invoke(
-        mbid: String?,
-        artistName: String,
-        albumName: String
+        album: AlbumUiModel
     ): Flow<ResultModel<AlbumDetailResponseModel>> = flow {
         try {
             emit(ResultModel.Loading())
-            val response = if (mbid.isNullOrEmpty()) {
-                repository.getAlbumDetailsWithArtisNameAndAlbumName(artistName, albumName)
+            val response = if (album.mbid.isNullOrEmpty()) {
+                repository.getAlbumDetailsWithArtisNameAndAlbumName(album.artistName, album.name)
 
             } else {
-                repository.getAlbumDetailsWithMbid(mbid)
+                repository.getAlbumDetailsWithMbid(album.mbid)
             }
             if (response.isSuccessful) {
                 response.body()?.let {

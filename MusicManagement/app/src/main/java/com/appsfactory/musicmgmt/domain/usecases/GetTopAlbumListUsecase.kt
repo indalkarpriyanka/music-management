@@ -3,6 +3,7 @@ package com.appsfactory.musicmgmt.domain.usecases
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.TopAlbumsResponseModel
 import com.appsfactory.musicmgmt.data.repository.Repository
+import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -10,13 +11,21 @@ import java.io.IOException
 
 class GetTopAlbumListUsecase(private val repository: Repository) {
 
-    operator fun invoke(artistName: String): Flow<ResultModel<TopAlbumsResponseModel>> = flow {
+    operator fun invoke(artistName: String): Flow<ResultModel<ArrayList<AlbumUiModel>>> = flow {
         try {
+
+            var albumList = ArrayList<AlbumUiModel>()
             emit(ResultModel.Loading())
             val topAlbumsResponseModel = repository.getTopAlbumList(artistName)
             if (topAlbumsResponseModel.isSuccessful) {
                 topAlbumsResponseModel.body()?.let {
-                    emit(ResultModel.Success(it))
+
+                    it.topAlbums.album.forEach { album ->
+
+                        if (album.name != "(null)")
+                            albumList.add(album.convertToAlbumUiModel())
+                    }
+                    emit(ResultModel.Success(albumList))
                 }
             }
         } catch (e: HttpException) {

@@ -6,21 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.databinding.FragmentTopAlbumBinding
-
 import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModel
 import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.presentation.MainActivity
 import com.appsfactory.musicmgmt.view.adapters.TopAlbumAdapter
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
 
 class TopAlbumFragment : Fragment() {
 
@@ -70,7 +62,7 @@ class TopAlbumFragment : Fragment() {
                 }
                 resultModel is ResultModel.Success -> {
                     toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
-                    topAlbumAdapter.submitList(resultModel.data?.topAlbums?.album)
+                    topAlbumAdapter.submitList(resultModel.data)
                 }
             }
         }
@@ -81,9 +73,7 @@ class TopAlbumFragment : Fragment() {
             bundle.putString(Constants.ALBUM_MID, album.mbid)
             findNavController().navigate(
                 TopAlbumFragmentDirections.actionTopAlbumFragmentToAlbumDetailsFragment(
-                    album.mbid,
-                    album.name,
-                    album.artist.name,
+                    album
                 )
             )
         }

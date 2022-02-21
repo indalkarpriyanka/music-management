@@ -51,10 +51,8 @@ class ArtistListAdapter :
             itemBinding.root.setOnClickListener {
                 onItemClick?.invoke(getItem(adapterPosition))
             }
-
         }
     }
-
 }
 
 private val artistListDiffCallback = object : DiffUtil.ItemCallback<Artist>() {

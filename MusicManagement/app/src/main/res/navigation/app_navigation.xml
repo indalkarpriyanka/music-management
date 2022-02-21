@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/navigation_searchFragment">
+    app:startDestination="@id/navigation_mylist">
 
     <fragment
         android:id="@+id/navigation_topAlbumFragment"
@@ -28,18 +28,19 @@
         android:name="com.appsfactory.musicmgmt.view.fragments.AlbumDetailsFragment"
         android:label="@string/details">
         <argument
-            android:name="mbid"
-            android:defaultValue=""
-            app:argType="string"
-            app:nullable="true"
+            android:name="albumModel"
+            app:argType="com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel"
             />
-        <argument
-            android:name="album_name"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="artist_name"
-            android:defaultValue=""
-            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_mylist"
+        android:name="com.appsfactory.musicmgmt.view.fragments.MyMusicListFragment"
+        android:label="@string/my_list"
+        tools:layout="@layout/fragment_my_music_list">
+
+        <action
+            android:id="@+id/action_myListFragment_to_albumDetailsFragment"
+            app:destination="@id/navigation_albumDetailsFragment"></action>
     </fragment>
 </navigation>

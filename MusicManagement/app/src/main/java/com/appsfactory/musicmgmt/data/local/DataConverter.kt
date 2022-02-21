@@ -9,9 +9,8 @@ import java.lang.reflect.Type
 
 
 class DataConverter {
-
     @TypeConverter
-    fun fromTrackList(tracks: List<Track>): String? {
+    fun fromTrackList(tracks: List<Track>?): String? {
         tracks?.let {
             val gson = Gson()
             val type: Type = object : TypeToken<List<Track>>() {}.type
@@ -29,5 +28,4 @@ class DataConverter {
         }
         return null
     }
-
 }
