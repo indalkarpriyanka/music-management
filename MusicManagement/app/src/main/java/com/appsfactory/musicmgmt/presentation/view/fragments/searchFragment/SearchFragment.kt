@@ -49,7 +49,6 @@ class SearchFragment : Fragment() {
     private fun init() {
         viewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
 
-
             when (resultModel) {
                 is ResultModel.Loading -> binding?.pgBar?.visibility = View.VISIBLE
                 is ResultModel.Error -> {
