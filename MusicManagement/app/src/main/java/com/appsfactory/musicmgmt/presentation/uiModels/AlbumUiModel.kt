@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AlbumUiModel(
     val artistName: String?,
-    val image: String,
+    val image: String?,
     val mbid: String?,
-    val name: String
+    val name: String,
+    val id: Int = 0
 ) : Parcelable

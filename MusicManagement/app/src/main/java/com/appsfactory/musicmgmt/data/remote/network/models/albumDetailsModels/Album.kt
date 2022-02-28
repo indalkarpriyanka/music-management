@@ -5,20 +5,20 @@ import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.I
 
 data class Album(
     val artist: String?,
-    val image: List<Image>,
-    val listeners: String,
-    val mbid: String,
+    val image: List<Image>?,
+    val listeners: String?,
+    val mbid: String?,
     val name: String,
-    val playcount: String,
+    val playcount: String?,
     val tags: Tags?,
     val tracks: Tracks?,
-    val url: String,
-    val wiki: Wiki
+    val url: String?,
+    val wiki: Wiki?
 ) {
     fun toAlbumEntity(): AlbumEntity {
         return AlbumEntity(
             artistName = artist,
-            image = image[1].text.toString(),
+            image = image?.get(1)?.text.toString(),
             mbid = tracks?.track?.get(0)?.artist?.mbid,
             name = name,
             playCount = playcount,

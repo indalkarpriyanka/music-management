@@ -1,4 +1,6 @@
 package com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels
 
-data class Tags(val tag: List<Tag>)
+import com.appsfactory.musicmgmt.data.remote.network.SingleToArray
+
+data class Tags(@SingleToArray val tag: List<Tag>?)
 

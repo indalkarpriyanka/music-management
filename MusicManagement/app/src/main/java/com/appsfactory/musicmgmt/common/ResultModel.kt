@@ -1,7 +1,5 @@
 package com.appsfactory.musicmgmt.common
 
-import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
-import kotlinx.coroutines.flow.Flow
 
 sealed class ResultModel<T>(
     val data: T? = null,

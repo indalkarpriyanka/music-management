@@ -1,16 +1,12 @@
 package com.appsfactory.musicmgmt.view.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.imageLoader
 import coil.load
-import coil.request.ImageRequest
-import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.Artist
 import com.appsfactory.musicmgmt.databinding.ItemArtistLayoutBinding
 
@@ -36,7 +32,6 @@ class ArtistListAdapter :
                 size(50, 50)
             }
         }
-        Log.d("album url======>", artist.image[0].text.toString())
     }
 
     private lateinit var context: Context

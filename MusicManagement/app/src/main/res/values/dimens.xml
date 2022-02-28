@@ -5,4 +5,7 @@
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_5">5dp</dimen>
+    <dimen name="titles_text_size">18sp</dimen>
+    <dimen name="value_text_size">20sp</dimen>
+    <dimen name="dp_20">20dp</dimen>
 </resources>

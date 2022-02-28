@@ -2,7 +2,7 @@ package com.appsfactory.musicmgmt.domain.usecases
 
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.SearchArtistResponse
-import com.appsfactory.musicmgmt.data.repository.Repository
+import com.appsfactory.musicmgmt.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -25,7 +25,6 @@ class GetArtistListUsecase(private val repository: Repository) {
             emit(ResultModel.Error("Couldn't reach server. Check your internet connection."))
         }
     }
-
 }
 
 

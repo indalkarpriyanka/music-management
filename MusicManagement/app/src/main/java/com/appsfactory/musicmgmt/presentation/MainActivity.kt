@@ -13,7 +13,6 @@ import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ActivityCompositeRoot
 import com.appsfactory.musicmgmt.databinding.ActivityMainBinding
 
-import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModel
 
 class MainActivity : AppCompatActivity() {
 

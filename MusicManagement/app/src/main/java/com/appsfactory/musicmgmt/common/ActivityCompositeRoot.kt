@@ -17,7 +17,6 @@ class ActivityCompositeRoot(
             applicationCompositeRoot.searchViewModelProviderFactory
         ).get(SearchViewModel::class.java)
     }
-
     val topAlbumsViewModel by lazy {
         ViewModelProvider(
             activity,

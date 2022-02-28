@@ -1,36 +1,31 @@
 package com.appsfactory.musicmgmt.view.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.common.utils.Constants
-import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.AlbumDetailResponseModel
+import com.appsfactory.musicmgmt.common.utils.Constants.MESSAGE
+import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
 import com.appsfactory.musicmgmt.databinding.FragmentAlbumDetailsBinding
 import com.appsfactory.musicmgmt.presentation.MainActivity
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.appsfactory.musicmgmt.view.adapters.TracksListAdapter
 
 class AlbumDetailsFragment : Fragment() {
 
     private lateinit var viewModel: AlbumDetailsViewModel
-    private lateinit var albumResponseModel: AlbumDetailResponseModel
+    private lateinit var albumModel: AlbumEntity
+    private lateinit var albumUiModel: AlbumUiModel
+    private lateinit var tracksListAdapter: TracksListAdapter
     private var binding: FragmentAlbumDetailsBinding? = null
-
-    private fun callGetAlbumDetailsApi(album:AlbumUiModel) {
-
-        viewModel.getAlbumDetails(album)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +38,57 @@ class AlbumDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: AlbumDetailsFragmentArgs by navArgs()
-
+        albumUiModel = args.albumModel
         viewModel = (requireActivity() as MainActivity).compositeRoot.albumDetailsViewModel
-        callGetAlbumDetailsApi(args.albumModel)
+        getAlbumDetails()
         setData()
+        setAdapter()
+    }
+
+    private fun setAdapter() {
+
+        tracksListAdapter = TracksListAdapter()
+        binding?.rvTracks?.adapter = tracksListAdapter
+
+
+    }
+
+    private fun setButtonStatusDownload() {
+        binding?.btnFavourite?.setText(Constants.DOWNLOAD)
+        binding?.btnFavourite?.setOnClickListener {
+            viewModel.addAlbumToDatabase(albumModel)
+            setButtonStatusRemove()
+        }
+    }
+
+    private fun setButtonStatusRemove() {
+        binding?.btnFavourite?.setText(Constants.REMOVE)
+        binding?.btnFavourite?.setOnClickListener {
+            viewModel.removeAlbum(albumModel.id)
+            albumModel.id = 0
+            setButtonStatusDownload()
+        }
+    }
+
+    private fun getAlbumDetails() {
+        if (albumUiModel.id != 0) {
+            getAlbumDetailsFromDb(albumUiModel.id)
+            setButtonStatusRemove()
+        } else {
+            callGetAlbumDetailsApi(albumUiModel)
+        }
+    }
+
+    private fun getAlbumDetailsFromDb(id: Int) {
+        viewModel.getAlbumDetailsFRomDb(id)
+    }
+
+    private fun callGetAlbumDetailsApi(album: AlbumUiModel) {
+        if (Constants.isInternetAvailable(requireActivity())) {
+            viewModel.getAlbumDetails(album)
+        } else {
+            Constants.showInternetErrorDialog(requireActivity().supportFragmentManager)
+        }
     }
 
     private fun setData() {
@@ -55,32 +97,52 @@ class AlbumDetailsFragment : Fragment() {
                 is ResultModel.Success -> {
                     binding?.pgBar?.visibility =
                         View.GONE
-                    albumResponseModel = it.data!!
-                    Log.d("url====>", Constants.formatUrl(it.data.album.image[0].toString()))
-                    binding?.imgAlbum?.load(it.data.album.image[1].toString())
-                    binding?.txtArtistNameValue?.text = it.data.album.artist
-                    (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                        it.data.album.name
+
+                    if (it.data != null) {
+                        albumModel = it.data
+                        displayData()
+                    }
                 }
                 is ResultModel.Error -> {
                     binding?.pgBar?.visibility =
                         View.GONE
+                    showDialog(it.message)
                 }
                 is ResultModel.Loading -> {
                     binding?.pgBar?.visibility =
                         View.VISIBLE
-
                 }
-            }
-
-        }
-
-        binding?.btnFavourite?.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.addAlbumToDatabase(albumResponseModel.album.toAlbumEntity())
             }
         }
     }
 
+    private fun showDialog(message: String?) {
+        var dialogFragment = DialogFragment()
+        val args = Bundle()
+        args.putString(MESSAGE, message)
+        dialogFragment.setArguments(args)
+        dialogFragment.show(requireActivity().supportFragmentManager, "Error")
+        findNavController().popBackStack()
 
+    }
+
+    private fun displayData() {
+        binding?.imgAlbum?.load(albumModel.image)
+        if (!albumModel.tracks.isNullOrEmpty()) {
+            binding?.txtTracks?.visibility = View.VISIBLE
+            tracksListAdapter.submitList(albumModel.tracks)
+        } else {
+            binding?.txtTracks?.visibility = View.GONE
+        }
+        binding?.txtAlbumNameValue?.text = albumModel.name
+        binding?.txtArtistNameValue?.text = albumModel.artistName
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+            albumModel.name
+
+        if (albumModel.id != 0) {
+            setButtonStatusRemove()
+        } else {
+            setButtonStatusDownload()
+        }
+    }
 }

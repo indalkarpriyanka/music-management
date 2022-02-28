@@ -5,7 +5,7 @@ import android.content.Context
 import com.appsfactory.musicmgmt.data.remote.network.Api
 import com.appsfactory.musicmgmt.data.remote.network.MusicMgmtService
 import com.appsfactory.musicmgmt.data.local.dao.AlbumDatabase
-import com.appsfactory.musicmgmt.data.repository.Repository
+import com.appsfactory.musicmgmt.repository.Repository
 import com.appsfactory.musicmgmt.domain.usecases.*
 import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModelProviderFactory
 import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModelProviderFactory
@@ -40,9 +40,20 @@ class ApplicationCompositeRoot(context: Context) {
     private val saveAlbumDetailsUseCase by lazy {
         SaveAlbumDetailsUseCase(repository)
     }
+    private val getAlbumDetailsFromDbUsecase by lazy {
+        GetAlbumDetailsFromDbUsecase(repository)
+    }
 
+    private val removeAlbumFromDbUsecase by lazy {
+        RemoveAlbumFromDbUsecase(repository)
+    }
     val albumDetailViewModelProviderFactory by lazy {
-        AlbumDetailsViewModelProviderFactory(getAlbumDetailsUsecase, saveAlbumDetailsUseCase)
+        AlbumDetailsViewModelProviderFactory(
+            getAlbumDetailsUsecase,
+            saveAlbumDetailsUseCase,
+            getAlbumDetailsFromDbUsecase,
+            removeAlbumFromDbUsecase
+        )
     }
     val searchViewModelProviderFactory by lazy {
         SearchViewModelProviderFactory(artistListUsecase)

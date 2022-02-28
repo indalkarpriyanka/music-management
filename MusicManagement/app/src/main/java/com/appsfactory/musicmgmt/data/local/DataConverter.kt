@@ -2,7 +2,6 @@ package com.appsfactory.musicmgmt.data.local
 
 import androidx.room.TypeConverter
 import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.Track
-import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.Tracks
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

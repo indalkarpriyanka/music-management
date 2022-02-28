@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.appsfactory.musicmgmt.R
-import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.Album
 import com.appsfactory.musicmgmt.databinding.ItemAlbumLayoutBinding
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 

@@ -1,8 +1,7 @@
 package com.appsfactory.musicmgmt.domain.usecases
 
 import com.appsfactory.musicmgmt.common.ResultModel
-import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.TopAlbumsResponseModel
-import com.appsfactory.musicmgmt.data.repository.Repository
+import com.appsfactory.musicmgmt.repository.Repository
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -4,23 +4,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsfactory.musicmgmt.common.ResultModel
-import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
 import com.appsfactory.musicmgmt.domain.usecases.GetMyAlbumListUsecase
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import kotlinx.coroutines.launch
 
 class MyAlbumListViewModel(private val getMyAlbumListUsecase: GetMyAlbumListUsecase) : ViewModel() {
 
-    var myAlbumList = MutableLiveData<ResultModel<ArrayList<AlbumUiModel>>>()
+    private val _myAlbumList = MutableLiveData<ResultModel<ArrayList<AlbumUiModel>?>>()
+    val myAlbumList: MutableLiveData<ResultModel<ArrayList<AlbumUiModel>?>> = _myAlbumList
 
     fun getMyAlbumList() {
         viewModelScope.launch {
             getMyAlbumListUsecase.invoke().collect {
-                if (it.data?.isNotEmpty() == true) {
-                    myAlbumList.postValue(ResultModel.Success(it.data))
-                }
+                _myAlbumList.postValue(ResultModel.Success(it.data))
             }
         }
     }
-
 }

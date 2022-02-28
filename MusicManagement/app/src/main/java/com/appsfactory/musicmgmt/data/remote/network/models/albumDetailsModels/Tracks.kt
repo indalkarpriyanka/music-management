@@ -1,3 +1,6 @@
 package com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels
 
-data class Tracks(val track: List<Track>)
+import com.appsfactory.musicmgmt.data.remote.network.SingleToArray
+
+
+data class Tracks(@SingleToArray val track: List<Track>?)

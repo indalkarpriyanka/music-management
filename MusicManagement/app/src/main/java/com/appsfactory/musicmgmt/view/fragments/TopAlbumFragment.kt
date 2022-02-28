@@ -34,7 +34,6 @@ class TopAlbumFragment : Fragment() {
     ): View? {
         toAlbumFragmentBinding = FragmentTopAlbumBinding.inflate(inflater, container, false)
         return toAlbumFragmentBinding?.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,13 +44,14 @@ class TopAlbumFragment : Fragment() {
     private fun init() {
         topAlbumsViewModel =
             (requireActivity() as MainActivity).compositeRoot.topAlbumsViewModel
-
-
-        topAlbumsViewModel.getTopAlbumList(artistName)
+        if (Constants.isInternetAvailable(requireActivity())) {
+            topAlbumsViewModel.getTopAlbumList(artistName)
+        } else {
+            Constants.showInternetErrorDialog(requireActivity().supportFragmentManager)
+        }
 
         topAlbumAdapter = TopAlbumAdapter()
         toAlbumFragmentBinding?.rcvAlbumList?.adapter = topAlbumAdapter
-
         topAlbumsViewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
             when {
                 resultModel is ResultModel.Loading -> toAlbumFragmentBinding?.pgBar?.visibility =
@@ -68,7 +68,6 @@ class TopAlbumFragment : Fragment() {
         }
 
         topAlbumAdapter.onItemClick = { album ->
-
             val bundle = Bundle()
             bundle.putString(Constants.ALBUM_MID, album.mbid)
             findNavController().navigate(

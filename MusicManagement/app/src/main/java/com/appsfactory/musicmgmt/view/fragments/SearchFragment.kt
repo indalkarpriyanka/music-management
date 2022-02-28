@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ResultModel
@@ -16,6 +15,8 @@ import com.appsfactory.musicmgmt.databinding.FragmentSearchBinding
 
 import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModel
 import com.appsfactory.musicmgmt.common.utils.Constants
+import com.appsfactory.musicmgmt.common.utils.Constants.isInternetAvailable
+import com.appsfactory.musicmgmt.common.utils.Constants.showInternetErrorDialog
 import com.appsfactory.musicmgmt.presentation.MainActivity
 import com.appsfactory.musicmgmt.view.adapters.ArtistListAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -30,17 +31,17 @@ class SearchFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel
     private lateinit var artistAdapter: ArtistListAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = (requireActivity() as MainActivity).compositeRoot.searchViewModel
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding?.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = (requireActivity() as MainActivity).compositeRoot.searchViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,14 +52,19 @@ class SearchFragment : Fragment() {
     private fun init() {
         viewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
             when {
-                resultModel is ResultModel.Loading-> binding?.pgBar?.visibility=View.VISIBLE
-                resultModel is ResultModel.Error ->{
-                    binding?.pgBar?.visibility=View.GONE
+                resultModel is ResultModel.Loading -> binding?.pgBar?.visibility = View.VISIBLE
+                resultModel is ResultModel.Error -> {
+                    binding?.pgBar?.visibility = View.GONE
                     Log.d("Error", resultModel.message.toString())
                 }
-                resultModel is ResultModel.Success ->{
-                    binding?.pgBar?.visibility=View.GONE
-                    artistAdapter.submitList(resultModel.data?.results?.artistMatches?.artist)
+                resultModel is ResultModel.Success -> {
+                    binding?.pgBar?.visibility = View.GONE
+                    if (resultModel.data?.results?.artistMatches?.artist?.isNotEmpty() == true) {
+                        binding?.tvNoData?.visibility = View.GONE
+                        artistAdapter.submitList(resultModel.data?.results?.artistMatches?.artist)
+                    } else {
+                        binding?.tvNoData?.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -77,6 +83,12 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun createTopAlbumsFragment(artistName: String) {
+        val bundle = Bundle()
+        bundle.putString(Constants.ARTIST_NAME, artistName)
+        findNavController().navigate(R.id.action_searchFragment_to_topAlbumFragment, bundle)
+    }
+
     private fun View.hideKeyboard() {
         val inputManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -84,14 +96,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun callGetArtistListApi(searchText: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        if (isInternetAvailable(requireActivity())) {
             viewModel.getArtistList(searchText)
+        } else {
+            showInternetErrorDialog(requireActivity().supportFragmentManager)
         }
-    }
-
-    private fun createTopAlbumsFragment(artistName: String) {
-        val bundle = Bundle()
-        bundle.putString(Constants.ARTIST_NAME, artistName)
-        findNavController().navigate(R.id.action_searchFragment_to_topAlbumFragment, bundle)
     }
 }
