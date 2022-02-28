@@ -3,11 +3,14 @@ package com.appsfactory.musicmgmt.view.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.databinding.ItemAlbumLayoutBinding
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
@@ -44,10 +47,11 @@ class TopAlbumAdapter :
         } else {
             album.name
         }
-
         if (!album.image.isNullOrEmpty()) {
+
             holder.imgAlbum.load(album.image) {
                 crossfade(true)
+                placeholder(R.drawable.img_album_placeholder)
             }
         }
     }

@@ -34,11 +34,8 @@ class GetAlbumDetailsUsecase(private val repository: Repository) {
                 }
             }
         } catch (e: Exception) {
-
             Log.e("Error",e.localizedMessage)
             emit(ResultModel.Error("An unexpected error occured"))
-        } catch (e: IOException) {
-            emit(ResultModel.Error("Couldn't reach server. Check your internet connection."))
         }
     }
 }

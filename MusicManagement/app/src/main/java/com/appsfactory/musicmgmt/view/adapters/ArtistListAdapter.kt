@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.Artist
 import com.appsfactory.musicmgmt.databinding.ItemArtistLayoutBinding
 
@@ -30,6 +31,7 @@ class ArtistListAdapter :
         if (artist.image[0].text?.isNotEmpty() == true) {
             holder.imgArtist.load(artist.image[0].text) {
                 size(50, 50)
+                placeholder(R.drawable.img_artist_placeholder)
             }
         }
     }

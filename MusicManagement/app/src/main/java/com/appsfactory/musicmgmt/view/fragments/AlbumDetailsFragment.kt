@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.common.utils.Constants.MESSAGE
@@ -18,6 +20,7 @@ import com.appsfactory.musicmgmt.presentation.MainActivity
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
 import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModel
 import com.appsfactory.musicmgmt.view.adapters.TracksListAdapter
+
 
 class AlbumDetailsFragment : Fragment() {
 
@@ -46,11 +49,8 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun setAdapter() {
-
         tracksListAdapter = TracksListAdapter()
         binding?.rvTracks?.adapter = tracksListAdapter
-
-
     }
 
     private fun setButtonStatusDownload() {
@@ -92,25 +92,30 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun setData() {
-        viewModel.albumDetailResponseModel.observe(viewLifecycleOwner) {
-            when (it) {
-                is ResultModel.Success -> {
-                    binding?.pgBar?.visibility =
-                        View.GONE
 
-                    if (it.data != null) {
-                        albumModel = it.data
-                        displayData()
+        viewModel.albumDetailResponseModel.observe(
+            viewLifecycleOwner
+        ) { it ->
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                when (it) {
+                    is ResultModel.Success -> {
+                        binding?.pgBar?.visibility =
+                            View.GONE
+
+                        if (it.data != null) {
+                            albumModel = it.data
+                            displayData()
+                        }
                     }
-                }
-                is ResultModel.Error -> {
-                    binding?.pgBar?.visibility =
-                        View.GONE
-                    showDialog(it.message)
-                }
-                is ResultModel.Loading -> {
-                    binding?.pgBar?.visibility =
-                        View.VISIBLE
+                    is ResultModel.Error -> {
+                        binding?.pgBar?.visibility =
+                            View.GONE
+                        showDialog(it.message)
+                    }
+                    is ResultModel.Loading -> {
+                        binding?.pgBar?.visibility =
+                            View.VISIBLE
+                    }
                 }
             }
         }
@@ -121,13 +126,19 @@ class AlbumDetailsFragment : Fragment() {
         val args = Bundle()
         args.putString(MESSAGE, message)
         dialogFragment.setArguments(args)
+        dialogFragment.dismissClicked = { findNavController().popBackStack() }
         dialogFragment.show(requireActivity().supportFragmentManager, "Error")
-        findNavController().popBackStack()
 
     }
 
     private fun displayData() {
-        binding?.imgAlbum?.load(albumModel.image)
+        if (!albumModel.image.isNullOrEmpty()) {
+            binding?.imgAlbum?.load(albumModel.image) {
+                crossfade(true)
+                placeholder(R.drawable.img_album_placeholder)
+            }
+        }
+
         if (!albumModel.tracks.isNullOrEmpty()) {
             binding?.txtTracks?.visibility = View.VISIBLE
             tracksListAdapter.submitList(albumModel.tracks)

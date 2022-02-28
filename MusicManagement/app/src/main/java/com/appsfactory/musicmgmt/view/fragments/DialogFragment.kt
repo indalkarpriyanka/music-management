@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.utils.Constants.MESSAGE
+import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.Artist
 import com.appsfactory.musicmgmt.databinding.FragmentDialogBinding
 import com.appsfactory.musicmgmt.databinding.FragmentSearchBinding
 
@@ -14,6 +15,7 @@ import com.appsfactory.musicmgmt.databinding.FragmentSearchBinding
 class DialogFragment : androidx.fragment.app.DialogFragment() {
 
     private var message: String? = null
+    var dismissClicked: (() -> Unit)? = null
     private var binding: FragmentDialogBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,8 @@ class DialogFragment : androidx.fragment.app.DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.btnOk?.setOnClickListener { dialog?.dismiss() }
+        binding?.btnOk?.setOnClickListener { dialog?.dismiss()
+            dismissClicked?.invoke()
+        }
     }
 }
