@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.databinding.FragmentTopAlbumBinding
@@ -52,16 +53,19 @@ class TopAlbumFragment : Fragment() {
         topAlbumAdapter = TopAlbumAdapter()
         toAlbumFragmentBinding?.rcvAlbumList?.adapter = topAlbumAdapter
         topAlbumsViewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
-            when (resultModel) {
-                is ResultModel.Loading -> toAlbumFragmentBinding?.pgBar?.visibility =
-                    View.VISIBLE
-                is ResultModel.Error -> {
-                    toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
-                    Log.d("Error", resultModel.message.toString())
-                }
-                is ResultModel.Success -> {
-                    toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
-                    topAlbumAdapter.submitList(resultModel.data)
+
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                when (resultModel) {
+                    is ResultModel.Loading -> toAlbumFragmentBinding?.pgBar?.visibility =
+                        View.VISIBLE
+                    is ResultModel.Error -> {
+                        toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
+                        Log.d("Error", resultModel.message.toString())
+                    }
+                    is ResultModel.Success -> {
+                        toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
+                        topAlbumAdapter.submitList(resultModel.data)
+                    }
                 }
             }
         }

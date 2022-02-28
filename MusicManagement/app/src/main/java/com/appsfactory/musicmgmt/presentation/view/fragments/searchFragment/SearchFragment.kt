@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ResultModel
@@ -47,6 +48,8 @@ class SearchFragment : Fragment() {
 
     private fun init() {
         viewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
+
+
             when (resultModel) {
                 is ResultModel.Loading -> binding?.pgBar?.visibility = View.VISIBLE
                 is ResultModel.Error -> {
@@ -63,6 +66,7 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
+
         }
         artistAdapter = ArtistListAdapter()
         binding?.rcvArtistList?.adapter = artistAdapter
