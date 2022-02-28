@@ -18,7 +18,6 @@ class SingleToArrayAdapter(
     companion object {
         val INSTANCE = SingleToArrayAdapterFactory()
     }
-
     override fun fromJson(reader: JsonReader): Any? =
         if (reader.peek() != JsonReader.Token.BEGIN_ARRAY) {
             Collections.singletonList(elementAdapter.fromJson(reader))

@@ -1,6 +1,7 @@
 package com.appsfactory.musicmgmt.data.remote.network
 
 
+import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.Tracks
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -19,9 +20,8 @@ object Api {
             .build()
 
     private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
         .add(SingleToArrayAdapter.INSTANCE)
-
+        .add(KotlinJsonAdapterFactory())
         .build()
 
     var retrofit: Retrofit =
