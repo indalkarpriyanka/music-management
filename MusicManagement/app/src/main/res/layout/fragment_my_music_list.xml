@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:id="@+id/layout_main_my_music_list"
-    tools:context=".view.fragments.MyMusicListFragment">
+    tools:context=".presentation.view.fragments.myMusicListFragment.MyMusicListFragment">
 
     <TextView
         android:id="@+id/tv_no_data"

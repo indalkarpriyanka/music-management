@@ -1,15 +1,11 @@
-package com.appsfactory.musicmgmt.view.fragments
+package com.appsfactory.musicmgmt.presentation.view.fragments.dialogFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.utils.Constants.MESSAGE
-import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.Artist
 import com.appsfactory.musicmgmt.databinding.FragmentDialogBinding
-import com.appsfactory.musicmgmt.databinding.FragmentSearchBinding
 
 
 class DialogFragment : androidx.fragment.app.DialogFragment() {
@@ -30,6 +26,8 @@ class DialogFragment : androidx.fragment.app.DialogFragment() {
     ): View? {
         binding = FragmentDialogBinding.inflate(inflater, container, false)
         dialog?.requestWindowFeature(STYLE_NO_TITLE)
+        dialog?.setCancelable(false)
+        dialog?.setCanceledOnTouchOutside(false)
         binding?.tvMessage?.text = message
         return binding?.root
     }

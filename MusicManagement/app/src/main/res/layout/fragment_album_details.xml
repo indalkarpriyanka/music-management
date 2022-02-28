@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/dp_10"
     android:id="@+id/layout_main_album_details"
-    tools:context=".view.fragments.AlbumDetailsFragment">
+    tools:context=".presentation.view.fragments.albumDetailsFragment.AlbumDetailsFragment">
 
     <ImageView
         android:id="@+id/img_album"

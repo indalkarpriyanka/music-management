@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.adapters
+package com.appsfactory.musicmgmt.presentation.view.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

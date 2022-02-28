@@ -2,10 +2,10 @@ package com.appsfactory.musicmgmt.common
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModel
-import com.appsfactory.musicmgmt.presentation.viewModels.MyAlbumListViewModel
-import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModel
-import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModel
+import com.appsfactory.musicmgmt.presentation.view.fragments.albumDetailsFragment.AlbumDetailsViewModel
+import com.appsfactory.musicmgmt.presentation.view.fragments.myMusicListFragment.MyAlbumListViewModel
+import com.appsfactory.musicmgmt.presentation.view.fragments.searchFragment.SearchViewModel
+import com.appsfactory.musicmgmt.presentation.view.fragments.topAlbumFragment.TopAlbumsViewModel
 
 class ActivityCompositeRoot(
     activity: AppCompatActivity,

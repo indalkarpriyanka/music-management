@@ -1,7 +1,5 @@
 package com.appsfactory.musicmgmt.data.remote.network
 
-
-import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.Tracks
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

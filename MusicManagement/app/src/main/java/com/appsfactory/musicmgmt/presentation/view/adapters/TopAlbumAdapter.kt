@@ -1,16 +1,13 @@
-package com.appsfactory.musicmgmt.view.adapters
+package com.appsfactory.musicmgmt.presentation.view.adapters
 
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
 import coil.load
-import coil.request.ImageRequest
 import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.databinding.ItemAlbumLayoutBinding
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
@@ -40,15 +37,12 @@ class TopAlbumAdapter :
     }
 
     override fun onBindViewHolder(holder: TopAlbumViewHolder, position: Int) {
-        var album = getItem(position)
+        val album = getItem(position)
 
-        holder.txtAlbumName.text = if (album.name.isNullOrEmpty()) {
+        holder.txtAlbumName.text = album.name.ifEmpty {
             context.getString(R.string.no_title)
-        } else {
-            album.name
         }
         if (!album.image.isNullOrEmpty()) {
-
             holder.imgAlbum.load(album.image) {
                 crossfade(true)
                 placeholder(R.drawable.img_album_placeholder)

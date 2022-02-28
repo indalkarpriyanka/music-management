@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.presentation.viewModels
+package com.appsfactory.musicmgmt.presentation.view.fragments.searchFragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +24,7 @@ class SearchViewModel(private val getArtistListUsecase: GetArtistListUsecase) : 
                     }
                     is ResultModel.Success -> {
                         ResultModel.Success(it.data)
-                            ?.let { it1 -> _searchArtistList.postValue(ResultModel.Success(it.data!!)) }
+                            .let { it1 -> _searchArtistList.postValue(ResultModel.Success(it1.data!!)) }
                     }
                 }
             }

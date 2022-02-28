@@ -7,7 +7,7 @@
     android:layout_marginStart="@dimen/dp_10"
     android:layout_marginEnd="@dimen/dp_10"
     android:id="@+id/layout_main_search"
-    tools:context=".view.fragments.SearchFragment">
+    tools:context=".presentation.view.fragments.searchFragment.SearchFragment">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/et_search_text"

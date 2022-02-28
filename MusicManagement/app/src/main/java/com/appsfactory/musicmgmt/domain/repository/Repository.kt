@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.repository
+package com.appsfactory.musicmgmt.domain.repository
 
 import com.appsfactory.musicmgmt.data.remote.network.MusicMgmtService
 import com.appsfactory.musicmgmt.common.utils.Constants

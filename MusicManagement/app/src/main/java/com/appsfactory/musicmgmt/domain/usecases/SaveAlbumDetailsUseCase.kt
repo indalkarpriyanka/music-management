@@ -1,7 +1,7 @@
 package com.appsfactory.musicmgmt.domain.usecases
 
 import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
-import com.appsfactory.musicmgmt.repository.Repository
+import com.appsfactory.musicmgmt.domain.repository.Repository
 
 class SaveAlbumDetailsUseCase(private val repository: Repository) {
 

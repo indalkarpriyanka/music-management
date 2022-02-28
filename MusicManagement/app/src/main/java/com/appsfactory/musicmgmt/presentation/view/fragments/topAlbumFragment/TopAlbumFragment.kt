@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.fragments
+package com.appsfactory.musicmgmt.presentation.view.fragments.topAlbumFragment
 
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.databinding.FragmentTopAlbumBinding
-import com.appsfactory.musicmgmt.presentation.viewModels.TopAlbumsViewModel
 import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.presentation.MainActivity
-import com.appsfactory.musicmgmt.view.adapters.TopAlbumAdapter
+import com.appsfactory.musicmgmt.presentation.view.adapters.TopAlbumAdapter
 
 class TopAlbumFragment : Fragment() {
 
@@ -53,14 +52,14 @@ class TopAlbumFragment : Fragment() {
         topAlbumAdapter = TopAlbumAdapter()
         toAlbumFragmentBinding?.rcvAlbumList?.adapter = topAlbumAdapter
         topAlbumsViewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
-            when {
-                resultModel is ResultModel.Loading -> toAlbumFragmentBinding?.pgBar?.visibility =
+            when (resultModel) {
+                is ResultModel.Loading -> toAlbumFragmentBinding?.pgBar?.visibility =
                     View.VISIBLE
-                resultModel is ResultModel.Error -> {
+                is ResultModel.Error -> {
                     toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
                     Log.d("Error", resultModel.message.toString())
                 }
-                resultModel is ResultModel.Success -> {
+                is ResultModel.Success -> {
                     toAlbumFragmentBinding?.pgBar?.visibility = View.GONE
                     topAlbumAdapter.submitList(resultModel.data)
                 }

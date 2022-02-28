@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.adapters
+package com.appsfactory.musicmgmt.presentation.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,29 +13,34 @@ class TracksListAdapter :
     inner class TrackViewModel(itemBinding: ItemTrackLayoutBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        val txtTrackName = itemBinding.txtTrackName
-        val txtListeners = itemBinding.txtDuration
+        private val txtTrackName = itemBinding.txtTrackName
+        private val txtListeners = itemBinding.txtDuration
 
         fun bind(track: Track) {
             txtTrackName.text = track.name
-
-            val min = track.duration?.div(60)
-            val sec = track.duration?.rem(60)
-            txtListeners.text = "$min min $sec sec"
+            lateinit var duration: String
+            duration = if (track.duration != 0) {
+                val min = track.duration?.div(60)
+                val sec = track.duration?.rem(60)
+                "$min min $sec sec"
+            } else {
+                "Not specified"
+            }
+            txtListeners.text = duration
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TracksListAdapter.TrackViewModel {
+    ): TrackViewModel {
         val itemBinding: ItemTrackLayoutBinding = ItemTrackLayoutBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return TrackViewModel(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: TracksListAdapter.TrackViewModel, position: Int) {
+    override fun onBindViewHolder(holder: TrackViewModel, position: Int) {
         holder.bind(getItem(position))
     }
 }

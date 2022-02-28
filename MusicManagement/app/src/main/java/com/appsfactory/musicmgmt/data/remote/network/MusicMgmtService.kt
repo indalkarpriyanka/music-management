@@ -4,7 +4,6 @@ import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.data.remote.network.models.albumDetailsModels.AlbumDetailResponseModel
 import com.appsfactory.musicmgmt.data.remote.network.models.artistSearchModels.SearchArtistResponse
 import com.appsfactory.musicmgmt.data.remote.network.models.topAlbumsModels.TopAlbumsResponseModel
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 

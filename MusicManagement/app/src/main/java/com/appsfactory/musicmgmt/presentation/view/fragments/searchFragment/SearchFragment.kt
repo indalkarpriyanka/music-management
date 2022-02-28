@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.fragments
+package com.appsfactory.musicmgmt.presentation.view.fragments.searchFragment
 
 import android.content.Context
 import android.os.Bundle
@@ -13,16 +13,12 @@ import com.appsfactory.musicmgmt.R
 import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.databinding.FragmentSearchBinding
 
-import com.appsfactory.musicmgmt.presentation.viewModels.SearchViewModel
 import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.common.utils.Constants.isInternetAvailable
 import com.appsfactory.musicmgmt.common.utils.Constants.showInternetErrorDialog
 import com.appsfactory.musicmgmt.presentation.MainActivity
-import com.appsfactory.musicmgmt.view.adapters.ArtistListAdapter
+import com.appsfactory.musicmgmt.presentation.view.adapters.ArtistListAdapter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment() {
@@ -51,17 +47,17 @@ class SearchFragment : Fragment() {
 
     private fun init() {
         viewModel.searchArtistList.observe(viewLifecycleOwner) { resultModel ->
-            when {
-                resultModel is ResultModel.Loading -> binding?.pgBar?.visibility = View.VISIBLE
-                resultModel is ResultModel.Error -> {
+            when (resultModel) {
+                is ResultModel.Loading -> binding?.pgBar?.visibility = View.VISIBLE
+                is ResultModel.Error -> {
                     binding?.pgBar?.visibility = View.GONE
                     Log.d("Error", resultModel.message.toString())
                 }
-                resultModel is ResultModel.Success -> {
+                is ResultModel.Success -> {
                     binding?.pgBar?.visibility = View.GONE
                     if (resultModel.data?.results?.artistMatches?.artist?.isNotEmpty() == true) {
                         binding?.tvNoData?.visibility = View.GONE
-                        artistAdapter.submitList(resultModel.data?.results?.artistMatches?.artist)
+                        artistAdapter.submitList(resultModel.data.results.artistMatches.artist)
                     } else {
                         binding?.tvNoData?.visibility = View.VISIBLE
                     }

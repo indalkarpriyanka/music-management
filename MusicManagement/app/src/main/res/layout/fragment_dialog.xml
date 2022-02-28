@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_20"
-    tools:context=".view.fragments.DialogFragment">
+    tools:context=".presentation.view.fragments.dialogFragment.DialogFragment">
 
 
     <TextView

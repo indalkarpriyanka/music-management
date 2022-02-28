@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.presentation.viewModels
+package com.appsfactory.musicmgmt.presentation.view.fragments.albumDetailsFragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,7 +49,7 @@ class AlbumDetailsViewModel(
 
     fun getAlbumDetailsFRomDb(id: Int) {
         viewModelScope.launch {
-            var albumEntity = getAlbumDetailsFromDbUsecase.invoke(id)
+            val albumEntity = getAlbumDetailsFromDbUsecase.invoke(id)
             _albumDetailResponseModel.postValue(ResultModel.Success(albumEntity))
         }
     }

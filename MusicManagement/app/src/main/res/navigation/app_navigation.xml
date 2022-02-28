@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_topAlbumFragment"
-        android:name="com.appsfactory.musicmgmt.view.fragments.TopAlbumFragment"
+        android:name="com.appsfactory.musicmgmt.presentation.view.fragments.topAlbumFragment.TopAlbumFragment"
         android:label="@string/top_albums"
         tools:layout="@layout/fragment_top_album">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_searchFragment"
-        android:name="com.appsfactory.musicmgmt.view.fragments.SearchFragment"
+        android:name="com.appsfactory.musicmgmt.presentation.view.fragments.searchFragment.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_albumDetailsFragment"
-        android:name="com.appsfactory.musicmgmt.view.fragments.AlbumDetailsFragment"
+        android:name="com.appsfactory.musicmgmt.presentation.view.fragments.albumDetailsFragment.AlbumDetailsFragment"
         android:label="@string/details">
         <argument
             android:name="albumModel"
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/navigation_mylist"
-        android:name="com.appsfactory.musicmgmt.view.fragments.MyMusicListFragment"
+        android:name="com.appsfactory.musicmgmt.presentation.view.fragments.myMusicListFragment.MyMusicListFragment"
         android:label="@string/my_list"
         tools:layout="@layout/fragment_my_music_list">
 

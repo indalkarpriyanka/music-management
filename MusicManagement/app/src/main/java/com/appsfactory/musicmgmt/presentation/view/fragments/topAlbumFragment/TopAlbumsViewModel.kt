@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.presentation.viewModels
+package com.appsfactory.musicmgmt.presentation.view.fragments.topAlbumFragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

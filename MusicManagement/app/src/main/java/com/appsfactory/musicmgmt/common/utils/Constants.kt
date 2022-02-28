@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
-import com.appsfactory.musicmgmt.view.fragments.DialogFragment
+import com.appsfactory.musicmgmt.presentation.view.fragments.dialogFragment.DialogFragment
 
 object Constants {
 
@@ -28,6 +28,7 @@ object Constants {
     const val MESSAGE = "MESSAGE"
     private const val INTERNET_MESSAGE = "Please check your internet connection."
 
+    @Suppress("DEPRECATION")
     fun isInternetAvailable(context: Context): Boolean {
         var result = false
         val connectivityManager =
@@ -58,7 +59,7 @@ object Constants {
     }
 
     fun showInternetErrorDialog(supportFragmentManager: FragmentManager) {
-        var dialogFragment = DialogFragment()
+        val dialogFragment = DialogFragment()
         val args = Bundle()
         args.putString(MESSAGE, INTERNET_MESSAGE)
         dialogFragment.arguments = args

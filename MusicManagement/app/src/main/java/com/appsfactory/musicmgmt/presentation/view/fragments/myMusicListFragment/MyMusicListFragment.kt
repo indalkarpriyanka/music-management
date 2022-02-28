@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.fragments
+package com.appsfactory.musicmgmt.presentation.view.fragments.myMusicListFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,7 @@ import com.appsfactory.musicmgmt.common.ResultModel
 import com.appsfactory.musicmgmt.common.utils.Constants
 import com.appsfactory.musicmgmt.databinding.FragmentMyMusicListBinding
 import com.appsfactory.musicmgmt.presentation.MainActivity
-import com.appsfactory.musicmgmt.presentation.viewModels.MyAlbumListViewModel
-import com.appsfactory.musicmgmt.view.adapters.TopAlbumAdapter
+import com.appsfactory.musicmgmt.presentation.view.adapters.TopAlbumAdapter
 
 
 class MyMusicListFragment : Fragment() {
@@ -56,8 +55,8 @@ class MyMusicListFragment : Fragment() {
 
     private fun setObserver() {
         viewModel.myAlbumList.observe(viewLifecycleOwner) { resultModel ->
-            when {
-                resultModel is ResultModel.Success -> {
+            when (resultModel) {
+                is ResultModel.Success -> {
                     if (resultModel.data?.isNotEmpty() == true) {
                         binding?.tvNoData?.visibility = View.GONE
                         myAlbumListAdapter.submitList(resultModel.data)
@@ -65,6 +64,7 @@ class MyMusicListFragment : Fragment() {
                         binding?.tvNoData?.visibility = View.VISIBLE
                     }
                 }
+                else -> {}
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.appsfactory.musicmgmt.view.fragments
+package com.appsfactory.musicmgmt.presentation.view.fragments.albumDetailsFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,8 +18,8 @@ import com.appsfactory.musicmgmt.data.local.dao.AlbumEntity
 import com.appsfactory.musicmgmt.databinding.FragmentAlbumDetailsBinding
 import com.appsfactory.musicmgmt.presentation.MainActivity
 import com.appsfactory.musicmgmt.presentation.uiModels.AlbumUiModel
-import com.appsfactory.musicmgmt.presentation.viewModels.AlbumDetailsViewModel
-import com.appsfactory.musicmgmt.view.adapters.TracksListAdapter
+import com.appsfactory.musicmgmt.presentation.view.adapters.TracksListAdapter
+import com.appsfactory.musicmgmt.presentation.view.fragments.dialogFragment.DialogFragment
 
 
 class AlbumDetailsFragment : Fragment() {
@@ -54,7 +54,7 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun setButtonStatusDownload() {
-        binding?.btnFavourite?.setText(Constants.DOWNLOAD)
+        binding?.btnFavourite?.text = Constants.DOWNLOAD
         binding?.btnFavourite?.setOnClickListener {
             viewModel.addAlbumToDatabase(albumModel)
             setButtonStatusRemove()
@@ -62,7 +62,7 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun setButtonStatusRemove() {
-        binding?.btnFavourite?.setText(Constants.REMOVE)
+        binding?.btnFavourite?.text = Constants.REMOVE
         binding?.btnFavourite?.setOnClickListener {
             viewModel.removeAlbum(albumModel.id)
             albumModel.id = 0
@@ -95,7 +95,7 @@ class AlbumDetailsFragment : Fragment() {
 
         viewModel.albumDetailResponseModel.observe(
             viewLifecycleOwner
-        ) { it ->
+        ) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 when (it) {
                     is ResultModel.Success -> {
@@ -122,10 +122,10 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun showDialog(message: String?) {
-        var dialogFragment = DialogFragment()
+        val dialogFragment = DialogFragment()
         val args = Bundle()
         args.putString(MESSAGE, message)
-        dialogFragment.setArguments(args)
+        dialogFragment.arguments = args
         dialogFragment.dismissClicked = { findNavController().popBackStack() }
         dialogFragment.show(requireActivity().supportFragmentManager, "Error")
 
